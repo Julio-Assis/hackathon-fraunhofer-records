@@ -25,6 +25,10 @@ message = {
 
 def index(request):
     payload = request.body
+
+    if not is_message_valid(payload):
+        return HttpResponse('invalid payload here')
+
     machine_record = MachineRecord(
         machine=payload.id,
         status=payload.status,
@@ -50,4 +54,44 @@ def index(request):
     )
 
     cause_record.save()
-    return HttpResponse('Hello, world. You are at')
+    return HttpResponse('record saved successfully')
+
+
+'''
+message = {
+    'machine': 0,
+    'variables': [],
+    'status': 1,
+    'stop_timestamp': 1231241,
+    'duration': 1234,
+    'cause': {
+        'id': 0,
+        'extras': ''
+    }
+}
+
+
+'''
+
+
+def is_message_valid(message):
+
+    if not message['machine']:
+        return False
+
+    if not message['variables']:
+        return False
+
+    if not message['status']:
+        return False
+
+    if not message['stop_timestamp']:
+        return False
+
+    if not message['duration']:
+        return False
+
+    if not message['cause']:
+        return False
+
+    return True

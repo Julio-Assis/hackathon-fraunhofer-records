@@ -9,9 +9,19 @@ from .models import (
 )
 
 # Register your models here.
-admin.site.register(Machine)
-admin.site.register(Variable)
-admin.site.register(Cause)
+@admin.register(Machine)
+class MachineAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(Variable)
+class VariableAdmin(admin.ModelAdmin):
+    list_display = ('name', 'unit', 'type',)
+
+
+@admin.register(Cause)
+class CauseAdmin(admin.ModelAdmin):
+    list_display = ('name',)
 
 
 @admin.register(MachineRecord)
