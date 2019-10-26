@@ -11,7 +11,7 @@ from .models import (
 # Register your models here.
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('id', 'name',)
 
 
 @admin.register(Variable)
