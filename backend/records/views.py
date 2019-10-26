@@ -21,6 +21,8 @@ message = {
 
 
 '''
+
+
 def index(request):
     payload = request.body
     machine_record = MachineRecord(
