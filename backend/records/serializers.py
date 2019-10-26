@@ -11,7 +11,13 @@ from records.models import (
 class MachineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Machine
-        fields = ('name',)
+        fields = ('id', 'name',)
+
+
+class CauseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cause
+        fields = ('id', 'name',)
 
 
 class VariableRecordSerializer(serializers.ModelSerializer):

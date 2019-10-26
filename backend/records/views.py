@@ -3,12 +3,16 @@ from django.http import HttpResponse
 from records.models import (
     MachineRecord,
     VariableRecord,
-    CauseRecord
+    CauseRecord,
+    Machine,
+    Cause,
 )
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from records.serializers import (
+    MachineSerializer,
     MachineRecordSerializer,
-    VariableRecordSerializer
+    VariableRecordSerializer,
+    CauseSerializer,
 )
 from django.views.decorators.csrf import csrf_exempt
 
@@ -40,6 +44,7 @@ message = {
 
 '''
 
+
 @csrf_exempt
 def index(request):
     if request.method != 'POST':
@@ -49,7 +54,8 @@ def index(request):
     if not is_message_valid(payload):
         return HttpResponse('invalid payload here')
 
-    import ipdb; ipdb.set_trace()
+    import ipdb
+    ipdb.set_trace()
     machine_record = MachineRecord(
         machine_id=payload['machine'],
         status=payload['status'],
@@ -76,6 +82,16 @@ def index(request):
 
     cause_record.save()
     return HttpResponse('record saved successfully')
+
+
+class MachineViewSet(ReadOnlyModelViewSet):
+    serializer_class = MachineSerializer
+    queryset = Machine.objects.all()
+
+
+class CauseViewSet(ReadOnlyModelViewSet):
+    serializer_class = CauseSerializer
+    queryset = Cause.objects.all()
 
 
 class MachineRecordViewSet(ReadOnlyModelViewSet):
