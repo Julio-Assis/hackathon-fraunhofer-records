@@ -18,22 +18,22 @@ from django.views.decorators.csrf import csrf_exempt
 
 '''
 message = {
-    'machine': 1,
+    'machine': 7,
     'variables': [{
         'id': 0,
         'value': 10,
-        'timestamp': 123,
+        'timestamp': timezone.now(),
     },{
         'id': 1,
         'value': 20,
-        'timestamp': 123,
+        'timestamp': timezone.now(),
     },{
         'id': 2,
         'value': 30,
-        'timestamp': 123,
+        'timestamp': timezone.now(),
     },],
     'status': 1,
-    'stop_timestamp': 1231241,
+    'stop_timestamp': timezone.now(),
     'duration': 1234,
     'cause': {
         'id': 0,
@@ -54,8 +54,6 @@ def index(request):
     if not is_message_valid(payload):
         return HttpResponse('invalid payload here')
 
-    import ipdb
-    ipdb.set_trace()
     machine_record = MachineRecord(
         machine_id=payload['machine'],
         status=payload['status'],
@@ -67,7 +65,7 @@ def index(request):
 
     for variable in payload['variables']:
         variable_record = VariableRecord(
-            variable=variable.id,
+            variable_id=variable.id,
             machine_record=machine_record,
             value=variable.value,
             timestamp=variable.timestamp
