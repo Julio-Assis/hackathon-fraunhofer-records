@@ -52,12 +52,17 @@ def index(request):
 
     payload = request.POST
     if not is_message_valid(payload):
-        return HttpResponse('invalid payload here')
+        payload = json.loads([x for x in request.POST.keys()][0])
+        if not is_message_valid(payload):
+            return HttpResponse('invalid payload here')
 
     machine_record = MachineRecord(
         machine_id=payload['machine'],
         status=payload['status'],
-        stop_timestamp=payload['stop_timestamp'],
+        stop_timestamp=payload['stop_timestamp'].replace(
+            '/',
+            '-'
+        ),
         duration=payload['duration']
     )
 
@@ -127,7 +132,8 @@ def is_message_valid(message):
     if not message.get('variables'):
         return False
 
-    if not message.get('status'):
+    status = message.get('status')
+    if not status and status is not False:
         return False
 
     if not message.get('stop_timestamp'):

@@ -13,9 +13,9 @@ class MachineRecord(models.Model):
         on_delete=models.CASCADE
     )
     status = models.BooleanField()
-    stop_timestamp = models.DateTimeField()
+    stop_timestamp = models.CharField(max_length=50)
     # duration of the stop in seconds
-    duration = models.IntegerField()
+    duration = models.CharField(max_length=50)
     operator_timestamp = models.DateTimeField(auto_now_add=True)
 
 
